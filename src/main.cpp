@@ -30,6 +30,8 @@ void loop() {
         String message = client.readStringUntil('\r');
         Serial.print("从STA收到: ");
         Serial.println(message);
+        message == "ON"?message = "OFF":message = "ON";
+        
       }
     }
     client.stop();
