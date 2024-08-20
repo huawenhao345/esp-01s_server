@@ -35,22 +35,29 @@ void loop()
     {
       if (client.available())
       {
+        // int a = client.read();
+        // Serial.println(a);
         String message = client.readStringUntil('\r');
         Serial.print("从STA收到: ");
         Serial.println(message);
-        if (message == "ON")
+        if (message=="ON")
         {
+          Serial.println("light on");
           digitalWrite(0, HIGH);
         }
-        else if (message == "OFF")
+        else if (message=="OFF")
         {
+          Serial.println("light off");
           digitalWrite(0, LOW);
         }
         else
         {
+          // Serial.print("message is");
+          // Serial.println(message)
           Serial.println("wrong message");
         }
       }
+      delay(10);
     }
     client.stop();
     Serial.println("客户端断开连接");
