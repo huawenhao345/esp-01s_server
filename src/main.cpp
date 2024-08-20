@@ -9,7 +9,11 @@ const char *ssid = "esp_01swifi";
 // 创建WiFiServer对象并指定端口号
 WiFiServer server(5000); // 端口号5000
 
-void setup() {
+void setup()
+{
+
+  pinMode(0, OUTPUT);
+
   Serial.begin(115200);
   // 设置ESP8266为AP模式
   WiFi.softAP(ssid, password);
@@ -21,17 +25,31 @@ void setup() {
   server.begin();
 }
 
-void loop() {
+void loop()
+{
   WiFiClient client = server.available(); // 检查是否有客户端连接
-  if (client) {
+  if (client)
+  {
     Serial.println("新客户端连接");
-    while (client.connected()) {
-      if (client.available()) {
+    while (client.connected())
+    {
+      if (client.available())
+      {
         String message = client.readStringUntil('\r');
         Serial.print("从STA收到: ");
         Serial.println(message);
-        message == "ON"?message = "OFF":message = "ON";
-        
+        if (message == "ON")
+        {
+          digitalWrite(0, HIGH);
+        }
+        else if (message == "OFF")
+        {
+          digitalWrite(0, LOW);
+        }
+        else
+        {
+          Serial.println("wrong message");
+        }
       }
     }
     client.stop();
