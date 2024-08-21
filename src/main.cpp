@@ -30,9 +30,9 @@ void loop()
   if (client)
   {
     Serial.println("新客户端连接");
-    while (client.connected())
+    bool statu1 = true;
+    while (client.status())
     {
-      bool statu = true;
       if (client.available())
       {
         String message = client.readStringUntil('\r');
@@ -40,9 +40,9 @@ void loop()
         Serial.println(message);
         if (message == "ON")
         {
-          Serial.println("light on");
-          digitalWrite(0, statu == true ? HIGH : LOW);
-          statu = !statu;
+          Serial.println(statu1);
+          digitalWrite(0, statu1 ? HIGH : LOW);
+          statu1 = !statu1;
         }
         else
         {
