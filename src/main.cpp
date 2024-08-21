@@ -1,5 +1,4 @@
 #include <ESP8266WiFi.h>
-#include <WiFiClient.h>
 
 const int serverPort = 5000;
 
@@ -33,28 +32,22 @@ void loop()
     Serial.println("新客户端连接");
     while (client.connected())
     {
+      bool statu = true;
       if (client.available())
       {
-        // int a = client.read();
-        // Serial.println(a);
         String message = client.readStringUntil('\r');
         Serial.print("从STA收到: ");
         Serial.println(message);
-        if (message=="ON")
+        if (message == "ON")
         {
           Serial.println("light on");
-          digitalWrite(0, HIGH);
-        }
-        else if (message=="OFF")
-        {
-          Serial.println("light off");
-          digitalWrite(0, LOW);
+          digitalWrite(0, statu == true ? HIGH : LOW);
+          statu = !statu;
         }
         else
         {
-          // Serial.print("message is");
-          // Serial.println(message)
-          Serial.println("wrong message");
+          Serial.print("wrong message is");
+          Serial.println(message);
         }
       }
       delay(10);
